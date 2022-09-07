@@ -2,6 +2,10 @@
 
     With this package you can get the time left, with a knowed total.
 
+## Example: 
+![Image](https://i.imgur.com/mKIGzX5.png)
+![Image](https://i.imgur.com/2vVI9qM.png)
+
 ## How to install
 
 > go get github.com/jonathanhecl/gotimeleft
