@@ -3,7 +3,7 @@
 [![Go Report Card](https://goreportcard.com/badge/github.com/jonathanhecl/gotimeleft)](https://goreportcard.com/report/github.com/jonathanhecl/gotimeleft)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE)
 
-> With this package you can get the time left, with a knowed total.
+> It is used to know how much estimated time is left to finish a task.
 
 ## Example: 
 ![Image](https://i.imgur.com/mKIGzX5.png)
