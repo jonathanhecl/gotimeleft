@@ -79,11 +79,15 @@ func (t *TimeLeft) Value(newValue int) *TimeLeft {
 	return t
 }
 
-func (t *TimeLeft) GetProgressString() string {
+func (t *TimeLeft) GetProgressValues() string {
 	return strconv.Itoa(t.LastValue) + "/" + strconv.Itoa(t.Total)
 }
 
-func (t *TimeLeft) GetProgress() float64 {
+func (t *TimeLeft) GetProgress() string {
+	return strconv.Itoa(int(t.GetFloat64()*100)) + "%"
+}
+
+func (t *TimeLeft) GetFloat64() float64 {
 	return float64(t.LastValue) / float64(t.Total)
 }
 

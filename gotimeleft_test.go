@@ -33,7 +33,8 @@ func TestInit(t *testing.T) {
 				LastStepTime:        sameTime,
 			},
 			checker: func(expected, got *TimeLeft) {
-				assert.Equal(t, expected, got)
+				assert.Equal(t, expected.Total, got.Total)
+				assert.Equal(t, expected.LastValue, got.LastValue)
 			},
 		},
 		{
@@ -47,7 +48,8 @@ func TestInit(t *testing.T) {
 				LastStepTime:        sameTime,
 			},
 			checker: func(expected, got *TimeLeft) {
-				assert.Equal(t, expected, got)
+				assert.Equal(t, expected.Total, got.Total)
+				assert.Equal(t, expected.LastValue, got.LastValue)
 			},
 		},
 	}
@@ -60,7 +62,7 @@ func TestInit(t *testing.T) {
 	}
 }
 
-func TestTimeLeft_GetProgress(t *testing.T) {
+func TestTimeLeft_GetFloat64(t *testing.T) {
 
 	type fields struct {
 		Total               int
@@ -121,13 +123,80 @@ func TestTimeLeft_GetProgress(t *testing.T) {
 				LastStepTime:        tt.fields.LastStepTime,
 			}
 
+			got := t.GetFloat64()
+			tt.checker(tt.want, got)
+		})
+	}
+}
+
+func TestTimeLeft_GetProgress(t *testing.T) {
+
+	type fields struct {
+		Total               int
+		InitializationTime  time.Time
+		SpeedPerMillisecond float64
+		LastValue           int
+		LastStepTime        time.Time
+	}
+
+	tests := []struct {
+		name    string
+		fields  fields
+		want    string
+		checker func(expected, got string)
+	}{
+		{
+			name: "Total 100, LastValue 50",
+			fields: fields{
+				Total:     100,
+				LastValue: 50,
+			},
+			want: "50%",
+			checker: func(expected, got string) {
+				assert.Equal(t, expected, got)
+			},
+		},
+		{
+			name: "Total 100, LastValue 0",
+			fields: fields{
+				Total:     100,
+				LastValue: 0,
+			},
+			want: "0%",
+			checker: func(expected, got string) {
+				assert.Equal(t, expected, got)
+			},
+		},
+		{
+			name: "Total 100, LastValue 100",
+			fields: fields{
+				Total:     100,
+				LastValue: 100,
+			},
+			want: "100%",
+			checker: func(expected, got string) {
+				assert.Equal(t, expected, got)
+			},
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t1 *testing.T) {
+			t := &TimeLeft{
+				Total:               tt.fields.Total,
+				InitializationTime:  tt.fields.InitializationTime,
+				SpeedPerMillisecond: tt.fields.SpeedPerMillisecond,
+				LastValue:           tt.fields.LastValue,
+				LastStepTime:        tt.fields.LastStepTime,
+			}
+
 			got := t.GetProgress()
 			tt.checker(tt.want, got)
 		})
 	}
 }
 
-func TestTimeLeft_GetProgressString(t *testing.T) {
+func TestTimeLeft_GetProgressValues(t *testing.T) {
 
 	type fields struct {
 		Total               int
@@ -189,7 +258,7 @@ func TestTimeLeft_GetProgressString(t *testing.T) {
 				LastStepTime:        tt.fields.LastStepTime,
 			}
 
-			got := t.GetProgressString()
+			got := t.GetProgressValues()
 			tt.checker(tt.want, got)
 		})
 	}
@@ -575,7 +644,7 @@ func TestTimeLeft_Value(t *testing.T) {
 			},
 			want: &TimeLeft{
 				Total:               100,
-				SpeedPerMillisecond: 0.0505,
+				SpeedPerMillisecond: 0.05,
 				LastValue:           100,
 			},
 			checker: func(expected, got *TimeLeft) {
