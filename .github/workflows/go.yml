@@ -18,5 +18,8 @@ jobs:
       with:
         go-version: 1.18
 
+    - name: Module
+      run: go mod init github.com/jonathanhecl/gotimeleft
+
     - name: Test
-      run: go test ../.
+      run: go test .
