@@ -18,11 +18,5 @@ jobs:
       with:
         go-version: 1.18
 
-    - name: Module
-      run: go mod init github.com/jonathanhecl/gotimeleft
-      
-    - name: Tidy
-      run: go mod tidy
-
     - name: Test
       run: go test .
