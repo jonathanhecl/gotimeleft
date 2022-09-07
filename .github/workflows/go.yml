@@ -2,9 +2,9 @@ name: Go
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ $default-branch ]
   pull_request:
-    branches: [ "main" ]
+    branches: [ $default-branch ]
 
 jobs:
 
@@ -20,6 +20,9 @@ jobs:
 
     - name: Module
       run: go mod init github.com/jonathanhecl/gotimeleft
+      
+    - name: Tidy
+      run: go mod tidy
 
     - name: Test
       run: go test .
