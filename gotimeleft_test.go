@@ -359,7 +359,7 @@ func TestTimeLeft_GetTimeSpent(t *testing.T) {
 			},
 			want: 0,
 			checker: func(expected, got time.Duration) {
-				assert.Equal(t, expected, got)
+				assert.Equal(t, expected, got.Round(time.Millisecond))
 			},
 		},
 		{
@@ -369,7 +369,7 @@ func TestTimeLeft_GetTimeSpent(t *testing.T) {
 			},
 			want: time.Hour,
 			checker: func(expected, got time.Duration) {
-				assert.Equal(t, expected, got)
+				assert.Equal(t, expected, got.Round(time.Minute))
 			},
 		},
 	}
