@@ -21,35 +21,35 @@ func TestInit(t *testing.T) {
 		checker func(expected, got *TimeLeft)
 	}{
 		{
-			name: "Total 100",
+			name: "totalValues 100",
 			args: args{
 				total: 100,
 			},
 			want: &TimeLeft{
-				Total:               100,
-				InitializationTime:  sameTime,
-				SpeedPerMillisecond: 0,
-				LastValue:           0,
-				LastStepTime:        sameTime,
+				totalValues:         100,
+				initializationTime:  sameTime,
+				speedPerMillisecond: 0,
+				lastValue:           0,
+				lastStepTime:        sameTime,
 			},
 			checker: func(expected, got *TimeLeft) {
-				assert.Equal(t, expected.Total, got.Total)
-				assert.Equal(t, expected.LastValue, got.LastValue)
+				assert.Equal(t, expected.totalValues, got.totalValues)
+				assert.Equal(t, expected.lastValue, got.lastValue)
 			},
 		},
 		{
-			name: "Total unset",
+			name: "totalValues unset",
 			args: args{},
 			want: &TimeLeft{
-				Total:               0,
-				InitializationTime:  sameTime,
-				SpeedPerMillisecond: 0,
-				LastValue:           0,
-				LastStepTime:        sameTime,
+				totalValues:         0,
+				initializationTime:  sameTime,
+				speedPerMillisecond: 0,
+				lastValue:           0,
+				lastStepTime:        sameTime,
 			},
 			checker: func(expected, got *TimeLeft) {
-				assert.Equal(t, expected.Total, got.Total)
-				assert.Equal(t, expected.LastValue, got.LastValue)
+				assert.Equal(t, expected.totalValues, got.totalValues)
+				assert.Equal(t, expected.lastValue, got.lastValue)
 			},
 		},
 	}
@@ -79,7 +79,7 @@ func TestTimeLeft_GetFloat64(t *testing.T) {
 		checker func(expected, got float64)
 	}{
 		{
-			name: "Total 100, LastValue 50",
+			name: "totalValues 100, lastValue 50",
 			fields: fields{
 				Total:     100,
 				LastValue: 50,
@@ -90,7 +90,7 @@ func TestTimeLeft_GetFloat64(t *testing.T) {
 			},
 		},
 		{
-			name: "Total 100, LastValue 0",
+			name: "totalValues 100, lastValue 0",
 			fields: fields{
 				Total:     100,
 				LastValue: 0,
@@ -101,7 +101,7 @@ func TestTimeLeft_GetFloat64(t *testing.T) {
 			},
 		},
 		{
-			name: "Total 100, LastValue 100",
+			name: "totalValues 100, lastValue 100",
 			fields: fields{
 				Total:     100,
 				LastValue: 100,
@@ -116,11 +116,11 @@ func TestTimeLeft_GetFloat64(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t1 *testing.T) {
 			t := &TimeLeft{
-				Total:               tt.fields.Total,
-				InitializationTime:  tt.fields.InitializationTime,
-				SpeedPerMillisecond: tt.fields.SpeedPerMillisecond,
-				LastValue:           tt.fields.LastValue,
-				LastStepTime:        tt.fields.LastStepTime,
+				totalValues:         tt.fields.Total,
+				initializationTime:  tt.fields.InitializationTime,
+				speedPerMillisecond: tt.fields.SpeedPerMillisecond,
+				lastValue:           tt.fields.LastValue,
+				lastStepTime:        tt.fields.LastStepTime,
 			}
 
 			got := t.GetFloat64()
@@ -146,7 +146,7 @@ func TestTimeLeft_GetProgress(t *testing.T) {
 		checker func(expected, got string)
 	}{
 		{
-			name: "Total 100, LastValue 50",
+			name: "totalValues 100, lastValue 50",
 			fields: fields{
 				Total:     100,
 				LastValue: 50,
@@ -157,7 +157,7 @@ func TestTimeLeft_GetProgress(t *testing.T) {
 			},
 		},
 		{
-			name: "Total 100, LastValue 0",
+			name: "totalValues 100, lastValue 0",
 			fields: fields{
 				Total:     100,
 				LastValue: 0,
@@ -168,7 +168,7 @@ func TestTimeLeft_GetProgress(t *testing.T) {
 			},
 		},
 		{
-			name: "Total 100, LastValue 100",
+			name: "totalValues 100, lastValue 100",
 			fields: fields{
 				Total:     100,
 				LastValue: 100,
@@ -183,11 +183,11 @@ func TestTimeLeft_GetProgress(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t1 *testing.T) {
 			t := &TimeLeft{
-				Total:               tt.fields.Total,
-				InitializationTime:  tt.fields.InitializationTime,
-				SpeedPerMillisecond: tt.fields.SpeedPerMillisecond,
-				LastValue:           tt.fields.LastValue,
-				LastStepTime:        tt.fields.LastStepTime,
+				totalValues:         tt.fields.Total,
+				initializationTime:  tt.fields.InitializationTime,
+				speedPerMillisecond: tt.fields.SpeedPerMillisecond,
+				lastValue:           tt.fields.LastValue,
+				lastStepTime:        tt.fields.LastStepTime,
 			}
 
 			got := t.GetProgress()
@@ -213,7 +213,7 @@ func TestTimeLeft_GetProgressValues(t *testing.T) {
 		checker func(expected, got string)
 	}{
 		{
-			name: "Total 100, LastValue 50",
+			name: "totalValues 100, lastValue 50",
 			fields: fields{
 				Total:     100,
 				LastValue: 50,
@@ -224,7 +224,7 @@ func TestTimeLeft_GetProgressValues(t *testing.T) {
 			},
 		},
 		{
-			name: "Total 100, LastValue 0",
+			name: "totalValues 100, lastValue 0",
 			fields: fields{
 				Total:     100,
 				LastValue: 0,
@@ -235,7 +235,7 @@ func TestTimeLeft_GetProgressValues(t *testing.T) {
 			},
 		},
 		{
-			name: "Total 100, LastValue 100",
+			name: "totalValues 100, lastValue 100",
 			fields: fields{
 				Total:     100,
 				LastValue: 100,
@@ -251,11 +251,11 @@ func TestTimeLeft_GetProgressValues(t *testing.T) {
 		t.Run(tt.name, func(t1 *testing.T) {
 
 			t := &TimeLeft{
-				Total:               tt.fields.Total,
-				InitializationTime:  tt.fields.InitializationTime,
-				SpeedPerMillisecond: tt.fields.SpeedPerMillisecond,
-				LastValue:           tt.fields.LastValue,
-				LastStepTime:        tt.fields.LastStepTime,
+				totalValues:         tt.fields.Total,
+				initializationTime:  tt.fields.InitializationTime,
+				speedPerMillisecond: tt.fields.SpeedPerMillisecond,
+				lastValue:           tt.fields.LastValue,
+				lastStepTime:        tt.fields.LastStepTime,
 			}
 
 			got := t.GetProgressValues()
@@ -321,11 +321,11 @@ func TestTimeLeft_GetTimeLeft(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t1 *testing.T) {
 			t := &TimeLeft{
-				Total:               tt.fields.Total,
-				InitializationTime:  tt.fields.InitializationTime,
-				SpeedPerMillisecond: tt.fields.SpeedPerMillisecond,
-				LastValue:           tt.fields.LastValue,
-				LastStepTime:        tt.fields.LastStepTime,
+				totalValues:         tt.fields.Total,
+				initializationTime:  tt.fields.InitializationTime,
+				speedPerMillisecond: tt.fields.SpeedPerMillisecond,
+				lastValue:           tt.fields.LastValue,
+				lastStepTime:        tt.fields.LastStepTime,
 			}
 
 			got := t.GetTimeLeft()
@@ -377,11 +377,11 @@ func TestTimeLeft_GetTimeSpent(t *testing.T) {
 		t.Run(tt.name, func(t1 *testing.T) {
 
 			t := &TimeLeft{
-				Total:               tt.baseFields.Total,
-				InitializationTime:  tt.baseFields.InitializationTime,
-				SpeedPerMillisecond: tt.baseFields.SpeedPerMillisecond,
-				LastValue:           tt.baseFields.LastValue,
-				LastStepTime:        tt.baseFields.LastStepTime,
+				totalValues:         tt.baseFields.Total,
+				initializationTime:  tt.baseFields.InitializationTime,
+				speedPerMillisecond: tt.baseFields.SpeedPerMillisecond,
+				lastValue:           tt.baseFields.LastValue,
+				lastStepTime:        tt.baseFields.LastStepTime,
 			}
 
 			got := t.GetTimeSpent()
@@ -412,7 +412,7 @@ func TestTimeLeft_Reset(t *testing.T) {
 		checker    func(expected, got *TimeLeft)
 	}{
 		{
-			name: "Total 99",
+			name: "totalValues 99",
 			baseFields: fields{
 				Total:     100,
 				LastValue: 100,
@@ -421,15 +421,15 @@ func TestTimeLeft_Reset(t *testing.T) {
 				total: 99,
 			},
 			want: &TimeLeft{
-				Total:               99,
-				InitializationTime:  time.Now(),
-				SpeedPerMillisecond: 0,
-				LastValue:           0,
-				LastStepTime:        time.Now(),
+				totalValues:         99,
+				initializationTime:  time.Now(),
+				speedPerMillisecond: 0,
+				lastValue:           0,
+				lastStepTime:        time.Now(),
 			},
 			checker: func(expected, got *TimeLeft) {
-				assert.Equal(t, expected.Total, got.Total)
-				assert.Equal(t, expected.LastValue, got.LastValue)
+				assert.Equal(t, expected.totalValues, got.totalValues)
+				assert.Equal(t, expected.lastValue, got.lastValue)
 			},
 		},
 	}
@@ -438,11 +438,11 @@ func TestTimeLeft_Reset(t *testing.T) {
 		t.Run(tt.name, func(t1 *testing.T) {
 
 			t := &TimeLeft{
-				Total:               tt.baseFields.Total,
-				InitializationTime:  tt.baseFields.InitializationTime,
-				SpeedPerMillisecond: tt.baseFields.SpeedPerMillisecond,
-				LastValue:           tt.baseFields.LastValue,
-				LastStepTime:        tt.baseFields.LastStepTime,
+				totalValues:         tt.baseFields.Total,
+				initializationTime:  tt.baseFields.InitializationTime,
+				speedPerMillisecond: tt.baseFields.SpeedPerMillisecond,
+				lastValue:           tt.baseFields.LastValue,
+				lastStepTime:        tt.baseFields.LastStepTime,
 			}
 
 			got := t.Reset(tt.args.total)
@@ -487,14 +487,14 @@ func TestTimeLeft_Step(t *testing.T) {
 				newStep: 2,
 			},
 			want: &TimeLeft{
-				Total:               100,
-				SpeedPerMillisecond: 0.002,
-				LastValue:           2,
+				totalValues:         100,
+				speedPerMillisecond: 0.002,
+				lastValue:           2,
 			},
 			checker: func(expected, got *TimeLeft) {
-				assert.Equal(t, expected.Total, got.Total)
-				assert.Equal(t, expected.LastValue, got.LastValue)
-				assert.Equal(t, expected.SpeedPerMillisecond, got.SpeedPerMillisecond)
+				assert.Equal(t, expected.totalValues, got.totalValues)
+				assert.Equal(t, expected.lastValue, got.lastValue)
+				assert.Equal(t, expected.speedPerMillisecond, got.speedPerMillisecond)
 			},
 		},
 		{
@@ -510,14 +510,14 @@ func TestTimeLeft_Step(t *testing.T) {
 				newStep: 8,
 			},
 			want: &TimeLeft{
-				Total:               100,
-				SpeedPerMillisecond: 0.005,
-				LastValue:           10,
+				totalValues:         100,
+				speedPerMillisecond: 0.005,
+				lastValue:           10,
 			},
 			checker: func(expected, got *TimeLeft) {
-				assert.Equal(t, expected.Total, got.Total)
-				assert.Equal(t, expected.LastValue, got.LastValue)
-				assert.Equal(t, expected.SpeedPerMillisecond, got.SpeedPerMillisecond)
+				assert.Equal(t, expected.totalValues, got.totalValues)
+				assert.Equal(t, expected.lastValue, got.lastValue)
+				assert.Equal(t, expected.speedPerMillisecond, got.speedPerMillisecond)
 			},
 		},
 		{
@@ -533,14 +533,14 @@ func TestTimeLeft_Step(t *testing.T) {
 				newStep: 101,
 			},
 			want: &TimeLeft{
-				Total:               100,
-				SpeedPerMillisecond: 0.05,
-				LastValue:           100,
+				totalValues:         100,
+				speedPerMillisecond: 0.05,
+				lastValue:           100,
 			},
 			checker: func(expected, got *TimeLeft) {
-				assert.Equal(t, expected.Total, got.Total)
-				assert.Equal(t, expected.LastValue, got.LastValue)
-				assert.Equal(t, expected.SpeedPerMillisecond, got.SpeedPerMillisecond)
+				assert.Equal(t, expected.totalValues, got.totalValues)
+				assert.Equal(t, expected.lastValue, got.lastValue)
+				assert.Equal(t, expected.speedPerMillisecond, got.speedPerMillisecond)
 			},
 		},
 	}
@@ -548,11 +548,11 @@ func TestTimeLeft_Step(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t1 *testing.T) {
 			t := &TimeLeft{
-				Total:               tt.baseFields.Total,
-				InitializationTime:  tt.baseFields.InitializationTime,
-				SpeedPerMillisecond: tt.baseFields.SpeedPerMillisecond,
-				LastValue:           tt.baseFields.LastValue,
-				LastStepTime:        tt.baseFields.LastStepTime,
+				totalValues:         tt.baseFields.Total,
+				initializationTime:  tt.baseFields.InitializationTime,
+				speedPerMillisecond: tt.baseFields.SpeedPerMillisecond,
+				lastValue:           tt.baseFields.LastValue,
+				lastStepTime:        tt.baseFields.LastStepTime,
 			}
 
 			got := t.Step(tt.args.newStep)
@@ -597,14 +597,14 @@ func TestTimeLeft_Value(t *testing.T) {
 				newValue: 2,
 			},
 			want: &TimeLeft{
-				Total:               100,
-				SpeedPerMillisecond: 0.002,
-				LastValue:           2,
+				totalValues:         100,
+				speedPerMillisecond: 0.002,
+				lastValue:           2,
 			},
 			checker: func(expected, got *TimeLeft) {
-				assert.Equal(t, expected.Total, got.Total)
-				assert.Equal(t, expected.LastValue, got.LastValue)
-				assert.Equal(t, expected.SpeedPerMillisecond, got.SpeedPerMillisecond)
+				assert.Equal(t, expected.totalValues, got.totalValues)
+				assert.Equal(t, expected.lastValue, got.lastValue)
+				assert.Equal(t, expected.speedPerMillisecond, got.speedPerMillisecond)
 			},
 		},
 		{
@@ -620,14 +620,14 @@ func TestTimeLeft_Value(t *testing.T) {
 				newValue: 10,
 			},
 			want: &TimeLeft{
-				Total:               100,
-				SpeedPerMillisecond: 0.005,
-				LastValue:           10,
+				totalValues:         100,
+				speedPerMillisecond: 0.005,
+				lastValue:           10,
 			},
 			checker: func(expected, got *TimeLeft) {
-				assert.Equal(t, expected.Total, got.Total)
-				assert.Equal(t, expected.LastValue, got.LastValue)
-				assert.Equal(t, expected.SpeedPerMillisecond, got.SpeedPerMillisecond)
+				assert.Equal(t, expected.totalValues, got.totalValues)
+				assert.Equal(t, expected.lastValue, got.lastValue)
+				assert.Equal(t, expected.speedPerMillisecond, got.speedPerMillisecond)
 			},
 		},
 		{
@@ -643,14 +643,14 @@ func TestTimeLeft_Value(t *testing.T) {
 				newValue: 101,
 			},
 			want: &TimeLeft{
-				Total:               100,
-				SpeedPerMillisecond: 0.05,
-				LastValue:           100,
+				totalValues:         100,
+				speedPerMillisecond: 0.05,
+				lastValue:           100,
 			},
 			checker: func(expected, got *TimeLeft) {
-				assert.Equal(t, expected.Total, got.Total)
-				assert.Equal(t, expected.LastValue, got.LastValue)
-				assert.Equal(t, expected.SpeedPerMillisecond, got.SpeedPerMillisecond)
+				assert.Equal(t, expected.totalValues, got.totalValues)
+				assert.Equal(t, expected.lastValue, got.lastValue)
+				assert.Equal(t, expected.speedPerMillisecond, got.speedPerMillisecond)
 			},
 		},
 	}
@@ -658,11 +658,11 @@ func TestTimeLeft_Value(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t1 *testing.T) {
 			t := &TimeLeft{
-				Total:               tt.baseFields.Total,
-				InitializationTime:  tt.baseFields.InitializationTime,
-				SpeedPerMillisecond: tt.baseFields.SpeedPerMillisecond,
-				LastValue:           tt.baseFields.LastValue,
-				LastStepTime:        tt.baseFields.LastStepTime,
+				totalValues:         tt.baseFields.Total,
+				initializationTime:  tt.baseFields.InitializationTime,
+				speedPerMillisecond: tt.baseFields.SpeedPerMillisecond,
+				lastValue:           tt.baseFields.LastValue,
+				lastStepTime:        tt.baseFields.LastStepTime,
 			}
 
 			got := t.Value(tt.args.newValue)

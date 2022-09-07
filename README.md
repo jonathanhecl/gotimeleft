@@ -1,5 +1,7 @@
 # GoTimeLeft
 
+    With this package you can get the time left, with a knowed total.
+
 ## How to install
 
 > go get github.com/jonathanhecl/gotimeleft
