@@ -1,8 +1,9 @@
 # GoTimeLeft
+[![Go](https://github.com/jonathanhecl/gotimeleft/actions/workflows/go.yml/badge.svg)](https://github.com/jonathanhecl/gotimeleft/actions/workflows/go.yml)
 [![Go Report Card](https://goreportcard.com/badge/github.com/jonathanhecl/gotimeleft)](https://goreportcard.com/report/github.com/jonathanhecl/gotimeleft)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE)
 
-    With this package you can get the time left, with a knowed total.
+> With this package you can get the time left, with a knowed total.
 
 ## Example: 
 ![Image](https://i.imgur.com/mKIGzX5.png)
