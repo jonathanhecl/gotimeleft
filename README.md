@@ -1,4 +1,6 @@
 # GoTimeLeft
+[![Go Report Card](https://goreportcard.com/badge/github.com/jonathanhecl/gotimeleft)](https://goreportcard.com/report/github.com/jonathanhecl/gotimeleft)
+[![License](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE.md)
 
     With this package you can get the time left, with a knowed total.
 
