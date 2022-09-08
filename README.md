@@ -33,8 +33,9 @@
   ...
   
   timeleft.GetProgressValues() // => 55/100 string
-  timeleft.GetProgress() // => 55% string
+  timeleft.GetProgress(2) // => 55.33% string with 2 decimals
   timeleft.GetFloat64() // => 0.55 float64
+  timeleft.GetPerSecond() // => 5.55 float64 per second
   timeleft.GetTimeLeft() // => 0.5ms time.Duration
   timeleft.GetTimeSpent() // => 2s time.Duration
 ```

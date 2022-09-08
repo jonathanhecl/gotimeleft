@@ -83,8 +83,8 @@ func (t *TimeLeft) GetProgressValues() string {
 	return strconv.Itoa(t.lastValue) + "/" + strconv.Itoa(t.totalValues)
 }
 
-func (t *TimeLeft) GetProgress() string {
-	return strconv.Itoa(int(t.GetFloat64()*100)) + "%"
+func (t *TimeLeft) GetProgress(prec int) string { // 10.1% 15.5%
+	return strconv.FormatFloat(float64(t.lastValue)/float64(t.totalValues)*100, 'f', prec, 64) + "%"
 }
 
 func (t *TimeLeft) GetFloat64() float64 {
@@ -97,4 +97,8 @@ func (t *TimeLeft) GetTimeLeft() time.Duration {
 
 func (t *TimeLeft) GetTimeSpent() time.Duration {
 	return time.Since(t.initializationTime)
+}
+
+func (t *TimeLeft) GetPerSecond() float64 {
+	return t.speedPerMillisecond * 1000
 }
