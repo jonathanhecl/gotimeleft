@@ -2,6 +2,7 @@ package gotimeleft
 
 import (
 	"strconv"
+	"strings"
 	"time"
 )
 
@@ -81,6 +82,22 @@ func (t *TimeLeft) Value(newValue int) *TimeLeft {
 
 func (t *TimeLeft) GetProgressValues() string {
 	return strconv.Itoa(t.lastValue) + "/" + strconv.Itoa(t.totalValues)
+}
+
+func (t *TimeLeft) GetProgressBar(fullBar int) string {
+	if fullBar < 1 {
+		fullBar = 30
+	}
+	percent := t.GetFloat64()
+	bar := int(percent * float64(fullBar))
+
+	if bar >= fullBar {
+		return "[" + strings.Repeat("=", bar) + strings.Repeat(".", fullBar-bar) + "]"
+	} else if bar == 0 {
+		return "[" + strings.Repeat(".", fullBar-bar) + strings.Repeat("=", bar) + "]"
+	} else {
+		return "[" + strings.Repeat("=", bar-1) + ">" + strings.Repeat(".", fullBar-bar) + "]"
+	}
 }
 
 func (t *TimeLeft) GetProgress(prec int) string { // 10.1% 15.5%

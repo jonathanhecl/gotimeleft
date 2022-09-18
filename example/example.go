@@ -14,7 +14,7 @@ func main() {
 		time.Sleep(100 * time.Millisecond) // Simulate a long process
 
 		timeleft.Step(1)
-		fmt.Printf("Time left: %s - %s - %s - Speed: %.2f/s\n", timeleft.GetTimeLeft().String(), timeleft.GetProgressValues(), timeleft.GetProgress(1), timeleft.GetPerSecond())
+		fmt.Printf("%s Time left: %s - %s - %s - Speed: %.2f/s\n", timeleft.GetProgressBar(30), timeleft.GetTimeLeft().String(), timeleft.GetProgressValues(), timeleft.GetProgress(1), timeleft.GetPerSecond())
 	}
 
 	fmt.Printf("Done! in %s\n", timeleft.GetTimeSpent().String())

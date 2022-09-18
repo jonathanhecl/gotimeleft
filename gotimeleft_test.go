@@ -210,6 +210,87 @@ func TestTimeLeft_GetProgress(t *testing.T) {
 	}
 }
 
+func TestTimeLeft_GetProgressBar(t *testing.T) {
+
+	type fields struct {
+		Total               int
+		InitializationTime  time.Time
+		SpeedPerMillisecond float64
+		LastValue           int
+		LastStepTime        time.Time
+	}
+
+	type args struct {
+		fullBar int
+	}
+
+	tests := []struct {
+		name    string
+		args    args
+		fields  fields
+		want    string
+		checker func(expected, got string)
+	}{
+		{
+			name: "totalValues 100, lastValue 50",
+			args: args{
+				fullBar: 30,
+			},
+			fields: fields{
+				Total:     100,
+				LastValue: 50,
+			},
+			want: "[==============>...............]",
+			checker: func(expected, got string) {
+				assert.Equal(t, expected, got)
+			},
+		},
+		{
+			name: "totalValues 100, lastValue 0",
+			args: args{
+				fullBar: 30,
+			},
+			fields: fields{
+				Total:     100,
+				LastValue: 0,
+			},
+			want: "[..............................]",
+			checker: func(expected, got string) {
+				assert.Equal(t, expected, got)
+			},
+		},
+		{
+			name: "totalValues 100, lastValue 100",
+			args: args{
+				fullBar: 0,
+			},
+			fields: fields{
+				Total:     100,
+				LastValue: 100,
+			},
+			want: "[==============================]",
+			checker: func(expected, got string) {
+				assert.Equal(t, expected, got)
+			},
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t1 *testing.T) {
+			t := &TimeLeft{
+				totalValues:         tt.fields.Total,
+				initializationTime:  tt.fields.InitializationTime,
+				speedPerMillisecond: tt.fields.SpeedPerMillisecond,
+				lastValue:           tt.fields.LastValue,
+				lastStepTime:        tt.fields.LastStepTime,
+			}
+
+			got := t.GetProgressBar(tt.args.fullBar)
+			tt.checker(tt.want, got)
+		})
+	}
+}
+
 func TestTimeLeft_GetProgressValues(t *testing.T) {
 
 	type fields struct {
