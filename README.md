@@ -6,6 +6,8 @@
 > It is used to know how much estimated time is left to finish a task.
 
 ## Example: 
+
+![Image](https://i.imgur.com/MhitUfV.png)
 ![Image](https://i.imgur.com/mKIGzX5.png)
 ![Image](https://i.imgur.com/2vVI9qM.png)
 
