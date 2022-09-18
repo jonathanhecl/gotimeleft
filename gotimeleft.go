@@ -91,10 +91,10 @@ func (t *TimeLeft) GetProgressBar(fullBar int) string {
 	percent := t.GetFloat64()
 	bar := int(percent * float64(fullBar))
 
-	if bar >= fullBar {
-		return "[" + strings.Repeat("=", bar) + strings.Repeat(".", fullBar-bar) + "]"
-	} else if bar == 0 {
-		return "[" + strings.Repeat(".", fullBar-bar) + strings.Repeat("=", bar) + "]"
+	if bar == 0 {
+		return "[" + strings.Repeat(".", fullBar) + "]"
+	} else if bar >= fullBar {
+		return "[" + strings.Repeat("=", fullBar) + "]"
 	} else {
 		return "[" + strings.Repeat("=", bar-1) + ">" + strings.Repeat(".", fullBar-bar) + "]"
 	}
