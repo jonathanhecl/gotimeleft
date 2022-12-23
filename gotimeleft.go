@@ -10,7 +10,7 @@ type (
 	TimeLeft struct {
 		totalValues         int
 		initializationTime  time.Time
-		speedPerMillisecond float64
+		speedPerMicrosecond float64
 		lastValue           int
 		lastStepTime        time.Time
 	}
@@ -20,7 +20,7 @@ func Init(newTotal int) *TimeLeft {
 	return &TimeLeft{
 		totalValues:         newTotal,
 		initializationTime:  time.Now(),
-		speedPerMillisecond: 0,
+		speedPerMicrosecond: 0,
 		lastValue:           0,
 		lastStepTime:        time.Now(),
 	}
@@ -29,7 +29,7 @@ func Init(newTotal int) *TimeLeft {
 func (t *TimeLeft) Reset(newTotal int) *TimeLeft {
 	t.initializationTime = time.Now()
 	t.totalValues = newTotal
-	t.speedPerMillisecond = 0
+	t.speedPerMicrosecond = 0
 	t.lastValue = 0
 	t.lastStepTime = time.Now()
 
@@ -44,12 +44,12 @@ func (t *TimeLeft) Step(newStep int) *TimeLeft {
 		newStep = change
 	}
 	elapsed := time.Since(t.lastStepTime)
-	speedPerMillisecond := float64(change) / float64(elapsed.Milliseconds())
+	speedPerMicrosecond := float64(change) / float64(elapsed.Microseconds())
 
-	if t.speedPerMillisecond == 0 {
-		t.speedPerMillisecond = speedPerMillisecond
+	if t.speedPerMicrosecond == 0 {
+		t.speedPerMicrosecond = speedPerMicrosecond
 	} else {
-		t.speedPerMillisecond = (t.speedPerMillisecond + speedPerMillisecond) / 2
+		t.speedPerMicrosecond = (t.speedPerMicrosecond + speedPerMicrosecond) / 2
 	}
 	t.lastValue = t.lastValue + newStep
 	t.lastStepTime = time.Now()
@@ -66,12 +66,12 @@ func (t *TimeLeft) Value(newValue int) *TimeLeft {
 	}
 
 	elapsed := time.Since(t.lastStepTime)
-	speedPerMillisecond := float64(change) / float64(elapsed.Milliseconds())
+	speedPerMicrosecond := float64(change) / float64(elapsed.Microseconds())
 
-	if t.speedPerMillisecond == 0 {
-		t.speedPerMillisecond = speedPerMillisecond
+	if t.speedPerMicrosecond == 0 {
+		t.speedPerMicrosecond = speedPerMicrosecond
 	} else {
-		t.speedPerMillisecond = (t.speedPerMillisecond + speedPerMillisecond) / 2
+		t.speedPerMicrosecond = (t.speedPerMicrosecond + speedPerMicrosecond) / 2
 	}
 
 	t.lastValue = newValue
@@ -109,7 +109,7 @@ func (t *TimeLeft) GetFloat64() float64 {
 }
 
 func (t *TimeLeft) GetTimeLeft() time.Duration {
-	return time.Duration(float64(t.totalValues-t.lastValue)/t.speedPerMillisecond) * time.Millisecond
+	return time.Duration(float64(t.totalValues-t.lastValue)/t.speedPerMicrosecond) * time.Microsecond
 }
 
 func (t *TimeLeft) GetTimeSpent() time.Duration {
@@ -117,5 +117,5 @@ func (t *TimeLeft) GetTimeSpent() time.Duration {
 }
 
 func (t *TimeLeft) GetPerSecond() float64 {
-	return t.speedPerMillisecond * 1000
+	return t.speedPerMicrosecond * 1000 * 1000
 }

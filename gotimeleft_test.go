@@ -1,9 +1,10 @@
 package gotimeleft
 
 import (
-	"github.com/stretchr/testify/assert"
 	"testing"
 	"time"
+
+	"github.com/stretchr/testify/assert"
 )
 
 func TestInit(t *testing.T) {
@@ -28,7 +29,7 @@ func TestInit(t *testing.T) {
 			want: &TimeLeft{
 				totalValues:         100,
 				initializationTime:  sameTime,
-				speedPerMillisecond: 0,
+				speedPerMicrosecond: 0,
 				lastValue:           0,
 				lastStepTime:        sameTime,
 			},
@@ -43,7 +44,7 @@ func TestInit(t *testing.T) {
 			want: &TimeLeft{
 				totalValues:         0,
 				initializationTime:  sameTime,
-				speedPerMillisecond: 0,
+				speedPerMicrosecond: 0,
 				lastValue:           0,
 				lastStepTime:        sameTime,
 			},
@@ -67,7 +68,7 @@ func TestTimeLeft_GetFloat64(t *testing.T) {
 	type fields struct {
 		Total               int
 		InitializationTime  time.Time
-		SpeedPerMillisecond float64
+		SpeedPerMicrosecond float64
 		LastValue           int
 		LastStepTime        time.Time
 	}
@@ -118,7 +119,7 @@ func TestTimeLeft_GetFloat64(t *testing.T) {
 			t := &TimeLeft{
 				totalValues:         tt.fields.Total,
 				initializationTime:  tt.fields.InitializationTime,
-				speedPerMillisecond: tt.fields.SpeedPerMillisecond,
+				speedPerMicrosecond: tt.fields.SpeedPerMicrosecond,
 				lastValue:           tt.fields.LastValue,
 				lastStepTime:        tt.fields.LastStepTime,
 			}
@@ -134,7 +135,7 @@ func TestTimeLeft_GetProgress(t *testing.T) {
 	type fields struct {
 		Total               int
 		InitializationTime  time.Time
-		SpeedPerMillisecond float64
+		SpeedPerMicrosecond float64
 		LastValue           int
 		LastStepTime        time.Time
 	}
@@ -199,7 +200,7 @@ func TestTimeLeft_GetProgress(t *testing.T) {
 			t := &TimeLeft{
 				totalValues:         tt.fields.Total,
 				initializationTime:  tt.fields.InitializationTime,
-				speedPerMillisecond: tt.fields.SpeedPerMillisecond,
+				speedPerMicrosecond: tt.fields.SpeedPerMicrosecond,
 				lastValue:           tt.fields.LastValue,
 				lastStepTime:        tt.fields.LastStepTime,
 			}
@@ -215,7 +216,7 @@ func TestTimeLeft_GetProgressBar(t *testing.T) {
 	type fields struct {
 		Total               int
 		InitializationTime  time.Time
-		SpeedPerMillisecond float64
+		SpeedPerMicrosecond float64
 		LastValue           int
 		LastStepTime        time.Time
 	}
@@ -280,7 +281,7 @@ func TestTimeLeft_GetProgressBar(t *testing.T) {
 			t := &TimeLeft{
 				totalValues:         tt.fields.Total,
 				initializationTime:  tt.fields.InitializationTime,
-				speedPerMillisecond: tt.fields.SpeedPerMillisecond,
+				speedPerMicrosecond: tt.fields.SpeedPerMicrosecond,
 				lastValue:           tt.fields.LastValue,
 				lastStepTime:        tt.fields.LastStepTime,
 			}
@@ -296,7 +297,7 @@ func TestTimeLeft_GetProgressValues(t *testing.T) {
 	type fields struct {
 		Total               int
 		InitializationTime  time.Time
-		SpeedPerMillisecond float64
+		SpeedPerMicrosecond float64
 		LastValue           int
 		LastStepTime        time.Time
 	}
@@ -348,7 +349,7 @@ func TestTimeLeft_GetProgressValues(t *testing.T) {
 			t := &TimeLeft{
 				totalValues:         tt.fields.Total,
 				initializationTime:  tt.fields.InitializationTime,
-				speedPerMillisecond: tt.fields.SpeedPerMillisecond,
+				speedPerMicrosecond: tt.fields.SpeedPerMicrosecond,
 				lastValue:           tt.fields.LastValue,
 				lastStepTime:        tt.fields.LastStepTime,
 			}
@@ -364,7 +365,7 @@ func TestTimeLeft_GetTimeLeft(t *testing.T) {
 	type fields struct {
 		Total               int
 		InitializationTime  time.Time
-		SpeedPerMillisecond float64
+		speedPerMicrosecond float64
 		LastValue           int
 		LastStepTime        time.Time
 	}
@@ -380,7 +381,7 @@ func TestTimeLeft_GetTimeLeft(t *testing.T) {
 			fields: fields{
 				Total:               100,
 				LastValue:           0,
-				SpeedPerMillisecond: 0,
+				speedPerMicrosecond: 0,
 			},
 			want: 0,
 			checker: func(expected, got time.Duration) {
@@ -388,25 +389,25 @@ func TestTimeLeft_GetTimeLeft(t *testing.T) {
 			},
 		},
 		{
-			name: "25ms time left",
+			name: "25µs time left",
 			fields: fields{
 				Total:               100,
 				LastValue:           50,
-				SpeedPerMillisecond: 2,
+				speedPerMicrosecond: 2,
 			},
-			want: 25 * time.Millisecond,
+			want: 25 * time.Microsecond,
 			checker: func(expected, got time.Duration) {
 				assert.Equal(t, expected, got)
 			},
 		},
 		{
-			name: "39.13s time left",
+			name: "39.13ms time left",
 			fields: fields{
 				Total:               100,
 				LastValue:           10,
-				SpeedPerMillisecond: 0.0023,
+				speedPerMicrosecond: 0.0023,
 			},
-			want: 39*time.Second + 130*time.Millisecond,
+			want: 39*time.Millisecond + 130*time.Microsecond,
 			checker: func(expected, got time.Duration) {
 				assert.Equal(t, expected, got)
 			},
@@ -418,7 +419,7 @@ func TestTimeLeft_GetTimeLeft(t *testing.T) {
 			t := &TimeLeft{
 				totalValues:         tt.fields.Total,
 				initializationTime:  tt.fields.InitializationTime,
-				speedPerMillisecond: tt.fields.SpeedPerMillisecond,
+				speedPerMicrosecond: tt.fields.speedPerMicrosecond,
 				lastValue:           tt.fields.LastValue,
 				lastStepTime:        tt.fields.LastStepTime,
 			}
@@ -436,7 +437,7 @@ func TestTimeLeft_GetTimeSpent(t *testing.T) {
 	type fields struct {
 		Total               int
 		InitializationTime  time.Time
-		SpeedPerMillisecond float64
+		SpeedPerMicrosecond float64
 		LastValue           int
 		LastStepTime        time.Time
 	}
@@ -474,7 +475,7 @@ func TestTimeLeft_GetTimeSpent(t *testing.T) {
 			t := &TimeLeft{
 				totalValues:         tt.baseFields.Total,
 				initializationTime:  tt.baseFields.InitializationTime,
-				speedPerMillisecond: tt.baseFields.SpeedPerMillisecond,
+				speedPerMicrosecond: tt.baseFields.SpeedPerMicrosecond,
 				lastValue:           tt.baseFields.LastValue,
 				lastStepTime:        tt.baseFields.LastStepTime,
 			}
@@ -490,7 +491,7 @@ func TestTimeLeft_Reset(t *testing.T) {
 	type fields struct {
 		Total               int
 		InitializationTime  time.Time
-		SpeedPerMillisecond float64
+		SpeedPerMicrosecond float64
 		LastValue           int
 		LastStepTime        time.Time
 	}
@@ -518,7 +519,7 @@ func TestTimeLeft_Reset(t *testing.T) {
 			want: &TimeLeft{
 				totalValues:         99,
 				initializationTime:  time.Now(),
-				speedPerMillisecond: 0,
+				speedPerMicrosecond: 0,
 				lastValue:           0,
 				lastStepTime:        time.Now(),
 			},
@@ -535,7 +536,7 @@ func TestTimeLeft_Reset(t *testing.T) {
 			t := &TimeLeft{
 				totalValues:         tt.baseFields.Total,
 				initializationTime:  tt.baseFields.InitializationTime,
-				speedPerMillisecond: tt.baseFields.SpeedPerMillisecond,
+				speedPerMicrosecond: tt.baseFields.SpeedPerMicrosecond,
 				lastValue:           tt.baseFields.LastValue,
 				lastStepTime:        tt.baseFields.LastStepTime,
 			}
@@ -553,7 +554,7 @@ func TestTimeLeft_Step(t *testing.T) {
 	type fields struct {
 		Total               int
 		InitializationTime  time.Time
-		SpeedPerMillisecond float64
+		SpeedPerMicrosecond float64
 		LastValue           int
 		LastStepTime        time.Time
 	}
@@ -573,7 +574,7 @@ func TestTimeLeft_Step(t *testing.T) {
 			name: "First step",
 			baseFields: fields{
 				Total:               100,
-				SpeedPerMillisecond: 0.0,
+				SpeedPerMicrosecond: 0.0,
 				LastValue:           0,
 				InitializationTime:  sameTime.Add(-1 * time.Hour),
 				LastStepTime:        sameTime.Add(-1 * time.Second),
@@ -583,20 +584,20 @@ func TestTimeLeft_Step(t *testing.T) {
 			},
 			want: &TimeLeft{
 				totalValues:         100,
-				speedPerMillisecond: 0.002,
+				speedPerMicrosecond: 2e-06,
 				lastValue:           2,
 			},
 			checker: func(expected, got *TimeLeft) {
 				assert.Equal(t, expected.totalValues, got.totalValues)
 				assert.Equal(t, expected.lastValue, got.lastValue)
-				assert.Equal(t, expected.speedPerMillisecond, got.speedPerMillisecond)
+				assert.Equal(t, expected.speedPerMicrosecond, got.speedPerMicrosecond)
 			},
 		},
 		{
 			name: "Second step",
 			baseFields: fields{
 				Total:               100,
-				SpeedPerMillisecond: 0.002,
+				SpeedPerMicrosecond: 0.002,
 				LastValue:           2,
 				InitializationTime:  sameTime.Add(-1 * time.Hour),
 				LastStepTime:        sameTime.Add(-1 * time.Second),
@@ -606,20 +607,20 @@ func TestTimeLeft_Step(t *testing.T) {
 			},
 			want: &TimeLeft{
 				totalValues:         100,
-				speedPerMillisecond: 0.005,
+				speedPerMicrosecond: 0.0010040000000000001,
 				lastValue:           10,
 			},
 			checker: func(expected, got *TimeLeft) {
 				assert.Equal(t, expected.totalValues, got.totalValues)
 				assert.Equal(t, expected.lastValue, got.lastValue)
-				assert.Equal(t, expected.speedPerMillisecond, got.speedPerMillisecond)
+				assert.Equal(t, expected.speedPerMicrosecond, got.speedPerMicrosecond)
 			},
 		},
 		{
 			name: "Exceeding step",
 			baseFields: fields{
 				Total:               100,
-				SpeedPerMillisecond: 0.002,
+				SpeedPerMicrosecond: 0.002,
 				LastValue:           2,
 				InitializationTime:  sameTime.Add(-1 * time.Hour),
 				LastStepTime:        sameTime.Add(-1 * time.Second),
@@ -629,13 +630,13 @@ func TestTimeLeft_Step(t *testing.T) {
 			},
 			want: &TimeLeft{
 				totalValues:         100,
-				speedPerMillisecond: 0.05,
+				speedPerMicrosecond: 0.001049,
 				lastValue:           100,
 			},
 			checker: func(expected, got *TimeLeft) {
 				assert.Equal(t, expected.totalValues, got.totalValues)
 				assert.Equal(t, expected.lastValue, got.lastValue)
-				assert.Equal(t, expected.speedPerMillisecond, got.speedPerMillisecond)
+				assert.Equal(t, expected.speedPerMicrosecond, got.speedPerMicrosecond)
 			},
 		},
 	}
@@ -645,7 +646,7 @@ func TestTimeLeft_Step(t *testing.T) {
 			t := &TimeLeft{
 				totalValues:         tt.baseFields.Total,
 				initializationTime:  tt.baseFields.InitializationTime,
-				speedPerMillisecond: tt.baseFields.SpeedPerMillisecond,
+				speedPerMicrosecond: tt.baseFields.SpeedPerMicrosecond,
 				lastValue:           tt.baseFields.LastValue,
 				lastStepTime:        tt.baseFields.LastStepTime,
 			}
@@ -663,7 +664,7 @@ func TestTimeLeft_Value(t *testing.T) {
 	type fields struct {
 		Total               int
 		InitializationTime  time.Time
-		SpeedPerMillisecond float64
+		SpeedPerMicrosecond float64
 		LastValue           int
 		LastStepTime        time.Time
 	}
@@ -683,7 +684,7 @@ func TestTimeLeft_Value(t *testing.T) {
 			name: "First value",
 			baseFields: fields{
 				Total:               100,
-				SpeedPerMillisecond: 0.0,
+				SpeedPerMicrosecond: 0.0,
 				LastValue:           0,
 				InitializationTime:  sameTime.Add(-1 * time.Hour),
 				LastStepTime:        sameTime.Add(-1 * time.Second),
@@ -693,20 +694,20 @@ func TestTimeLeft_Value(t *testing.T) {
 			},
 			want: &TimeLeft{
 				totalValues:         100,
-				speedPerMillisecond: 0.002,
+				speedPerMicrosecond: 0.002,
 				lastValue:           2,
 			},
 			checker: func(expected, got *TimeLeft) {
 				assert.Equal(t, expected.totalValues, got.totalValues)
 				assert.Equal(t, expected.lastValue, got.lastValue)
-				assert.Equal(t, expected.speedPerMillisecond, got.speedPerMillisecond)
+				assert.Equal(t, expected.speedPerMicrosecond, got.speedPerMicrosecond)
 			},
 		},
 		{
 			name: "Second value",
 			baseFields: fields{
 				Total:               100,
-				SpeedPerMillisecond: 0.002,
+				SpeedPerMicrosecond: 0.002,
 				LastValue:           2,
 				InitializationTime:  sameTime.Add(-1 * time.Hour),
 				LastStepTime:        sameTime.Add(-1 * time.Second),
@@ -716,20 +717,20 @@ func TestTimeLeft_Value(t *testing.T) {
 			},
 			want: &TimeLeft{
 				totalValues:         100,
-				speedPerMillisecond: 0.005,
+				speedPerMicrosecond: 0.005,
 				lastValue:           10,
 			},
 			checker: func(expected, got *TimeLeft) {
 				assert.Equal(t, expected.totalValues, got.totalValues)
 				assert.Equal(t, expected.lastValue, got.lastValue)
-				assert.Equal(t, expected.speedPerMillisecond, got.speedPerMillisecond)
+				assert.Equal(t, expected.speedPerMicrosecond, got.speedPerMicrosecond)
 			},
 		},
 		{
 			name: "Exceeding value",
 			baseFields: fields{
 				Total:               100,
-				SpeedPerMillisecond: 0.002,
+				SpeedPerMicrosecond: 0.002,
 				LastValue:           2,
 				InitializationTime:  sameTime.Add(-1 * time.Hour),
 				LastStepTime:        sameTime.Add(-1 * time.Second),
@@ -739,13 +740,13 @@ func TestTimeLeft_Value(t *testing.T) {
 			},
 			want: &TimeLeft{
 				totalValues:         100,
-				speedPerMillisecond: 0.05,
+				speedPerMicrosecond: 0.05,
 				lastValue:           100,
 			},
 			checker: func(expected, got *TimeLeft) {
 				assert.Equal(t, expected.totalValues, got.totalValues)
 				assert.Equal(t, expected.lastValue, got.lastValue)
-				assert.Equal(t, expected.speedPerMillisecond, got.speedPerMillisecond)
+				assert.Equal(t, expected.speedPerMicrosecond, got.speedPerMicrosecond)
 			},
 		},
 	}
@@ -755,7 +756,7 @@ func TestTimeLeft_Value(t *testing.T) {
 			t := &TimeLeft{
 				totalValues:         tt.baseFields.Total,
 				initializationTime:  tt.baseFields.InitializationTime,
-				speedPerMillisecond: tt.baseFields.SpeedPerMillisecond,
+				speedPerMicrosecond: tt.baseFields.SpeedPerMicrosecond,
 				lastValue:           tt.baseFields.LastValue,
 				lastStepTime:        tt.baseFields.LastStepTime,
 			}
@@ -771,7 +772,7 @@ func TestTimeLeft_GetPerSecond(t *testing.T) {
 	type fields struct {
 		totalValues         int
 		initializationTime  time.Time
-		speedPerMillisecond float64
+		speedPerMicrosecond float64
 		lastValue           int
 		lastStepTime        time.Time
 	}
@@ -786,7 +787,7 @@ func TestTimeLeft_GetPerSecond(t *testing.T) {
 			name: "First value",
 			baseFields: fields{
 				totalValues:         100,
-				speedPerMillisecond: 0.002,
+				speedPerMicrosecond: 0.002,
 				lastValue:           2,
 			},
 			want: 2.0,
@@ -798,7 +799,7 @@ func TestTimeLeft_GetPerSecond(t *testing.T) {
 			name: "Second value",
 			baseFields: fields{
 				totalValues:         100,
-				speedPerMillisecond: 0.005,
+				speedPerMicrosecond: 0.005,
 				lastValue:           10,
 			},
 			want: 5.0,
@@ -812,7 +813,7 @@ func TestTimeLeft_GetPerSecond(t *testing.T) {
 			t := &TimeLeft{
 				totalValues:         tt.baseFields.totalValues,
 				initializationTime:  tt.baseFields.initializationTime,
-				speedPerMillisecond: tt.baseFields.speedPerMillisecond,
+				speedPerMicrosecond: tt.baseFields.speedPerMicrosecond,
 				lastValue:           tt.baseFields.lastValue,
 				lastStepTime:        tt.baseFields.lastStepTime,
 			}
