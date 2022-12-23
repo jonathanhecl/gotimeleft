@@ -4,6 +4,7 @@
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE)
 
 > It is used to know how much estimated time is left to finish a task.
+> Works like a progress bar too.
 
 ## Example: 
 
