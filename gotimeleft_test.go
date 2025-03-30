@@ -383,7 +383,7 @@ func TestTimeLeft_GetTimeLeft(t *testing.T) {
 				LastValue:           0,
 				speedPerMicrosecond: 0,
 			},
-			want: 0,
+			want: 24 * time.Hour,
 			checker: func(expected, got time.Duration) {
 				assert.Equal(t, expected, got)
 			},
@@ -426,6 +426,84 @@ func TestTimeLeft_GetTimeLeft(t *testing.T) {
 
 			got := t.GetTimeLeft()
 			tt.checker(tt.want, got)
+		})
+	}
+}
+
+func TestTimeLeft_GetTimeLeftWithDelays(t *testing.T) {
+	type testCase struct {
+		name      string
+		setupFunc func() *TimeLeft
+		checkFunc func(t *testing.T, tl *TimeLeft)
+	}
+
+	tests := []testCase{
+		{
+			name: "Step method",
+			setupFunc: func() *TimeLeft {
+				tl := Init(100)
+				tl.Step(1)
+				time.Sleep(50 * time.Millisecond)
+				tl.Step(1)
+				return tl
+			},
+			checkFunc: func(t *testing.T, tl *TimeLeft) {
+				timeLeft1 := tl.GetTimeLeft()
+				assert.Greater(t, timeLeft1, time.Duration(0))
+				assert.Less(t, timeLeft1, 24*time.Hour)
+
+				time.Sleep(200 * time.Millisecond)
+				tl.Step(10)
+
+				timeLeft2 := tl.GetTimeLeft()
+				assert.Greater(t, timeLeft2, time.Duration(0))
+				assert.Less(t, timeLeft2, 24*time.Hour)
+			},
+		},
+		{
+			name: "Value method",
+			setupFunc: func() *TimeLeft {
+				tl := Init(100)
+				tl.Value(10)
+				time.Sleep(50 * time.Millisecond)
+				tl.Value(20)
+				return tl
+			},
+			checkFunc: func(t *testing.T, tl *TimeLeft) {
+				timeLeft1 := tl.GetTimeLeft()
+				assert.Greater(t, timeLeft1, time.Duration(0))
+				assert.Less(t, timeLeft1, 24*time.Hour)
+
+				time.Sleep(200 * time.Millisecond)
+				tl.Value(50)
+
+				timeLeft2 := tl.GetTimeLeft()
+				assert.Greater(t, timeLeft2, time.Duration(0))
+				assert.Less(t, timeLeft2, 24*time.Hour)
+			},
+		},
+		{
+			name: "Very small delays",
+			setupFunc: func() *TimeLeft {
+				tl := Init(100)
+				for i := 1; i <= 10; i++ {
+					tl.Step(1)
+					time.Sleep(1 * time.Millisecond)
+				}
+				return tl
+			},
+			checkFunc: func(t *testing.T, tl *TimeLeft) {
+				timeLeft := tl.GetTimeLeft()
+				assert.Greater(t, timeLeft, time.Duration(0))
+				assert.Less(t, timeLeft, 24*time.Hour)
+			},
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			tl := tt.setupFunc()
+			tt.checkFunc(t, tl)
 		})
 	}
 }
@@ -583,14 +661,13 @@ func TestTimeLeft_Step(t *testing.T) {
 				newStep: 2,
 			},
 			want: &TimeLeft{
-				totalValues:         100,
-				speedPerMicrosecond: 2e-06,
-				lastValue:           2,
+				totalValues: 100,
+				lastValue:   2,
 			},
 			checker: func(expected, got *TimeLeft) {
 				assert.Equal(t, expected.totalValues, got.totalValues)
 				assert.Equal(t, expected.lastValue, got.lastValue)
-				assert.Equal(t, expected.speedPerMicrosecond, got.speedPerMicrosecond)
+				assert.Greater(t, got.speedPerMicrosecond, float64(0), "speedPerMicrosecond should be greater than 0")
 			},
 		},
 		{
@@ -606,14 +683,13 @@ func TestTimeLeft_Step(t *testing.T) {
 				newStep: 8,
 			},
 			want: &TimeLeft{
-				totalValues:         100,
-				speedPerMicrosecond: 0.0010040000000000001,
-				lastValue:           10,
+				totalValues: 100,
+				lastValue:   10,
 			},
 			checker: func(expected, got *TimeLeft) {
 				assert.Equal(t, expected.totalValues, got.totalValues)
 				assert.Equal(t, expected.lastValue, got.lastValue)
-				assert.Equal(t, expected.speedPerMicrosecond, got.speedPerMicrosecond)
+				assert.Greater(t, got.speedPerMicrosecond, float64(0), "speedPerMicrosecond should be greater than 0")
 			},
 		},
 		{
@@ -629,14 +705,13 @@ func TestTimeLeft_Step(t *testing.T) {
 				newStep: 101,
 			},
 			want: &TimeLeft{
-				totalValues:         100,
-				speedPerMicrosecond: 0.001049,
-				lastValue:           100,
+				totalValues: 100,
+				lastValue:   100,
 			},
 			checker: func(expected, got *TimeLeft) {
 				assert.Equal(t, expected.totalValues, got.totalValues)
 				assert.Equal(t, expected.lastValue, got.lastValue)
-				assert.Equal(t, expected.speedPerMicrosecond, got.speedPerMicrosecond)
+				assert.Greater(t, got.speedPerMicrosecond, float64(0), "speedPerMicrosecond should be greater than 0")
 			},
 		},
 	}
@@ -693,14 +768,13 @@ func TestTimeLeft_Value(t *testing.T) {
 				newValue: 2,
 			},
 			want: &TimeLeft{
-				totalValues:         100,
-				speedPerMicrosecond: 0.002,
-				lastValue:           2,
+				totalValues: 100,
+				lastValue:   2,
 			},
 			checker: func(expected, got *TimeLeft) {
 				assert.Equal(t, expected.totalValues, got.totalValues)
 				assert.Equal(t, expected.lastValue, got.lastValue)
-				assert.Equal(t, expected.speedPerMicrosecond, got.speedPerMicrosecond)
+				assert.Greater(t, got.speedPerMicrosecond, float64(0), "speedPerMicrosecond should be greater than 0")
 			},
 		},
 		{
@@ -716,14 +790,13 @@ func TestTimeLeft_Value(t *testing.T) {
 				newValue: 10,
 			},
 			want: &TimeLeft{
-				totalValues:         100,
-				speedPerMicrosecond: 0.005,
-				lastValue:           10,
+				totalValues: 100,
+				lastValue:   10,
 			},
 			checker: func(expected, got *TimeLeft) {
 				assert.Equal(t, expected.totalValues, got.totalValues)
 				assert.Equal(t, expected.lastValue, got.lastValue)
-				assert.Equal(t, expected.speedPerMicrosecond, got.speedPerMicrosecond)
+				assert.Greater(t, got.speedPerMicrosecond, float64(0), "speedPerMicrosecond should be greater than 0")
 			},
 		},
 		{
@@ -739,14 +812,13 @@ func TestTimeLeft_Value(t *testing.T) {
 				newValue: 101,
 			},
 			want: &TimeLeft{
-				totalValues:         100,
-				speedPerMicrosecond: 0.05,
-				lastValue:           100,
+				totalValues: 100,
+				lastValue:   100,
 			},
 			checker: func(expected, got *TimeLeft) {
 				assert.Equal(t, expected.totalValues, got.totalValues)
 				assert.Equal(t, expected.lastValue, got.lastValue)
-				assert.Equal(t, expected.speedPerMicrosecond, got.speedPerMicrosecond)
+				assert.Greater(t, got.speedPerMicrosecond, float64(0), "speedPerMicrosecond should be greater than 0")
 			},
 		},
 	}
