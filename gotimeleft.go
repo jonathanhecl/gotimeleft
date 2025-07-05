@@ -105,6 +105,11 @@ func (t *TimeLeft) Value(newValue int) *TimeLeft {
 	return t
 }
 
+// GetValue returns the current value
+func (t *TimeLeft) GetValue() int {
+	return t.lastValue
+}
+
 // GetProgressValues returns the progress as a string (10/100)
 func (t *TimeLeft) GetProgressValues() string {
 	return strconv.Itoa(t.lastValue) + "/" + strconv.Itoa(t.totalValues)
